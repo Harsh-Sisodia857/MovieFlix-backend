@@ -1,5 +1,5 @@
 const Joi = require("Joi");
-const Genre = require("../model/genre");
+const { Genre, validateGenre } = require("../model/genre");
 
 
 module.exports.getAllGenre = async function (req, res) {
@@ -31,12 +31,17 @@ module.exports.updatingGenre = async function (req, res) {
     res.send(genre);
 }
 
-module.exports.deletingGenre = async function (req, res) {
-    const genre = await Genre.findByIdAndDelete(req.params.id);
-   
-    if (!genre) return res.status(404).send(`Genre with id ${req.params.id} not found`);
+module.exports.deletingGenre = async function(req, res) {
+    try {
+        const genre = await Genre.findByIdAndDelete(req.params.id);
+        if (!genre) return res.status(404).send(`Genre with id ${req.params.id} not found`);
 
-    res.send(genre);
+        res.send(genre);
+    } catch (ex) {
+        console.log('====================================');
+        console.log("ERROR : ",ex);
+        console.log('====================================');
+   }
 }
 
 module.exports.getSpecificGenre = async function (req, res) {
@@ -44,12 +49,4 @@ module.exports.getSpecificGenre = async function (req, res) {
     if (!genre) return res.status(404).send("Genre not found");
 
     res.send(genre);
-}
-
-function validateGenre(genre) {
-    const schema = Joi.object({
-        name: Joi.string().min(3).required()
-    });
-
-    return schema.validate(genre);
 }

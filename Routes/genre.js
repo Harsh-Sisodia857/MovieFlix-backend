@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const genreController = require('../Controller/genreController')
-
+const isAdmin = require('../middleware/admin');
 
 //GET
 router.get('/', genreController.getAllGenre)
@@ -15,6 +15,6 @@ router.post('/', auth, genreController.PostingGenre)
 //PUT
 router.put("/:id", auth, genreController.updatingGenre)
 //Delete
-router.delete("/:id", auth, genreController.deletingGenre)
+router.delete("/:id", [auth,isAdmin], genreController.deletingGenre)
 
 module.exports = router;

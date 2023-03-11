@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
-
 const { User, validate } = require("../model/user");
 
 
@@ -21,4 +20,9 @@ module.exports.creatingUser = async (req, res) => {
     const token = user.generateAuthToken();
     // sending only id, name and email to the request, not password
     res.header('auth-token',token).send(_.pick(user,['_id','name','email']));
+}
+
+module.exports.getUser = async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
 }
