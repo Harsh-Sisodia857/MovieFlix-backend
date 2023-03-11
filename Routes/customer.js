@@ -9,10 +9,10 @@ router.get('/', customerController.getAllCustomer)
 //Getting a particular customer
 router.get('/:id', customerController.getSpecificCustomer)
 //POST
-router.post('/', customerController.PostingCustomer)
+router.post('/', auth, customerController.PostingCustomer)
 //PUT
-router.put("/:id", customerController.updatingCustomer)
+router.put("/:id", auth, customerController.updatingCustomer)
 //Delete
-router.delete("/:id", customerController.deletingCustomer)
+router.delete("/:id", auth, customerController.deletingCustomer)
 
 module.exports = router;

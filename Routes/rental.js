@@ -5,7 +5,7 @@ const { getAllRental, postingRental, specificRental } = require('../Controller/r
 
 router.get('/', getAllRental);
 
-router.post('/', postingRental);
+router.post('/', auth, postingRental);
 
 router.get('/:id', specificRental);
 
