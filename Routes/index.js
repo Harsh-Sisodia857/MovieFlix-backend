@@ -13,6 +13,7 @@ router.use('/api/rental', require('./rental'))
 
 router.use('/api/user', require('./users'))
 
+router.use('/api/auth', require('./auth'))
 
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const { User, validate } = require("../model/user");
 
@@ -18,6 +19,7 @@ module.exports.creatingUser = async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
 
+    const token = user.generateAuthToken();
     // sending only id, name and email to the request, not password
-    res.send(_.pick(user,['_id','name','email']));
+    res.header('auth-token',token).send(_.pick(user,['_id','name','email']));
 }
