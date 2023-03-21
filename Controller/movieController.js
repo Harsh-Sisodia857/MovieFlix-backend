@@ -1,5 +1,5 @@
 const {Movie,validate} = require('../model/movie')
-const Genre = require('../model/genre')
+const {Genre} = require('../model/genre')
 
 
 module.exports.getAllMovie = async (req, res) => {
@@ -9,9 +9,9 @@ module.exports.getAllMovie = async (req, res) => {
 
 module.exports.PostingMovie =  async (req, res) => {
     const { error } = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send("validate : " +error.details[0].message);
 
-    const genre = await Genre.findById(req.body.genreId);
+    const genre = await Genre.findById(req.body.genreId._id);
     if (!genre) return res.status(400).send('Invalid genre.');
 
     let movie = new Movie({
@@ -38,7 +38,7 @@ module.exports.getSpecificMovie = async (req, res) => {
 
 module.exports.updatingMovie = async (req, res) => {
     const { error } = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send( error.details[0].message);
 
     const genre = await Genre.findById(req.body.genreId);
     if (!genre) return res.status(400).send('Invalid genre.');
